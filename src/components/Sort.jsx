@@ -1,22 +1,24 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSort, setSort } from '../redux/slices/filterSlice';
 
+export const sortList = [
+   { name: 'популярности(desc)', sortProperty: 'rating' },
+   { name: 'популярности(asc)', sortProperty: '-rating' },
+   { name: 'цене(desc)', sortProperty: 'price' },
+   { name: 'цене(asc)', sortProperty: '-price' },
+   { name: 'алфавиту(desc)', sortProperty: 'title' },
+   { name: 'алфавиту(asc)', sortProperty: '-title' }
+];
 
-
-function Sort({ value, onChangeSort }) {
+export const Sort = () => {
+   const dispatch = useDispatch();
+   const sort = useSelector(selectSort);
    const [open, setOpen] = React.useState(false)
-
-   const list = [
-      { name: 'популярности(desc)', sortProperty: 'rating' },
-      { name: 'популярности(asc)', sortProperty: '-rating' },
-      { name: 'цене(desc)', sortProperty: 'price' },
-      { name: 'цене(asc)', sortProperty: '-price' },
-      { name: 'алфавиту(desc)', sortProperty: 'title' },
-      { name: 'алфавиту(asc)', sortProperty: '-title' }
-   ];
-
-   const onCickListItem = (i) => {
-      onChangeSort(i)
-      setOpen(false)
+   
+   const onCickListItem = (obj) => {
+      dispatch(setSort(obj));
+      setOpen(false);
    }
 
    return (
@@ -24,7 +26,7 @@ function Sort({ value, onChangeSort }) {
          <div className="sort__label">
             <svg
                width="10"
-               height="6"
+               height="6" 
                viewBox="0 0 10 6"
                fill="none"
                xmlns="http://www.w3.org/2000/svg"
@@ -35,15 +37,15 @@ function Sort({ value, onChangeSort }) {
                />
             </svg>
             <b>Сортировка по:</b>
-            <span onClick={() => setOpen(!open)} >{value.name}</span>
+            <span onClick={() => setOpen(!open)} >{sort.name}</span>
          </div>
          {open && (<div className="sort__popup">
             <ul>
-               {list.map((obj, i) => (
+               {sortList.map((obj, i) => (
                   <li
                      key={i}
                      onClick={() => onCickListItem(obj)}
-                     className={value.sortProperty === obj.sortProperty ? 'active' : ''}>
+                     className={sort.sortProperty === obj.sortProperty ? 'active' : ''}>
                      {obj.name}
                   </li>
                ))}
@@ -54,5 +56,3 @@ function Sort({ value, onChangeSort }) {
       </div>
    );
 }
-
-export default Sort;
