@@ -14,8 +14,10 @@ export const sortList = [
 export const Sort = () => {
    const dispatch = useDispatch();
    const sort = useSelector(selectSort);
+
+
    const [open, setOpen] = React.useState(false)
-   
+
    const onCickListItem = (obj) => {
       dispatch(setSort(obj));
       setOpen(false);
@@ -26,7 +28,7 @@ export const Sort = () => {
          <div className="sort__label">
             <svg
                width="10"
-               height="6" 
+               height="6"
                viewBox="0 0 10 6"
                fill="none"
                xmlns="http://www.w3.org/2000/svg"
